@@ -55,5 +55,13 @@ sales_by_month = sales_df.withColumn("month", month("date")) \
 print("\nTask 8: Total Sales by Month:")
 sales_by_month.show()
 
+# Task 9: Identify the top 5 best-selling products by total sales amount
+top_products = sales_df.groupBy("product_id") \
+                       .agg(sum("amount").alias("total_sales")) \
+                       .orderBy(col("total_sales").desc()) \
+                       .limit(5)
+print("\nTask 9: Top 5 Best-Selling Products by Total Sales Amount:")
+top_products.show()
+
 # Stop the Spark session
 spark.stop()
