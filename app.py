@@ -1,5 +1,6 @@
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import col, sum, month, max, row_number
+from pyspark.sql.types import DoubleType, StringType, DateType
 
 # Start a Spark session
 spark = SparkSession.builder.appName("SalesAnalysis").getOrCreate()
@@ -27,6 +28,16 @@ filtered_sales_df.show()
 sales_df = sales_df.fillna({"amount": 0, "category": "Unknown"})
 print("\nTask 4: Data after replacing null values:")
 sales_df.show()
+
+# Task 5: Convert 'date' column to DateType for time-based analysis
+print("\nTask 5: Data before date conversion:")
+sales_df.select("date").show(5)  # Show only the first 5 rows for brevity
+
+# Perform the conversion
+sales_df = sales_df.withColumn("date", col("date").cast(DateType()))
+
+print("\nTask 5: Data after date conversion:")
+sales_df.select("date").show(5)
 
 # Stop the Spark session
 spark.stop()
