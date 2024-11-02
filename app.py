@@ -11,5 +11,11 @@ sales_df = spark.read.csv(file_path, header=True, inferSchema=True)
 print("\nTask 1: Overview of the data:")
 sales_df.show()
 
+# Task 2: Check schema and count rows
+print("\nTask 2: Schema of the data:")
+sales_df.printSchema()
+row_count = sales_df.count()
+print(f"\nTask 2: Number of rows: {row_count}")
+
 # Stop the Spark session
 spark.stop()
