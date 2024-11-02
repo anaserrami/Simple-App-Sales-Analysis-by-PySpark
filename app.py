@@ -1,4 +1,5 @@
 from pyspark.sql import SparkSession
+from pyspark.sql.functions import col, sum, month, max, row_number
 
 # Start a Spark session
 spark = SparkSession.builder.appName("SalesAnalysis").getOrCreate()
@@ -16,6 +17,11 @@ print("\nTask 2: Schema of the data:")
 sales_df.printSchema()
 row_count = sales_df.count()
 print(f"\nTask 2: Number of rows: {row_count}")
+
+# Task 3: Filter transactions with amount > 100
+filtered_sales_df = sales_df.filter(col("amount") > 100)
+print("\nTask 3: Transactions with amount > 100:")
+filtered_sales_df.show()
 
 # Stop the Spark session
 spark.stop()
