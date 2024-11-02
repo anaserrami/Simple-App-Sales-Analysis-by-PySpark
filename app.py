@@ -48,5 +48,12 @@ sales_by_category = sales_df.groupBy("category").agg(sum("amount").alias("total_
 print("\nTask 7: Total Sales by Category:")
 sales_by_category.show()
 
+# Task 8: Calculate total sales by month
+sales_by_month = sales_df.withColumn("month", month("date")) \
+                         .groupBy("month") \
+                         .agg(sum("amount").alias("total_sales"))
+print("\nTask 8: Total Sales by Month:")
+sales_by_month.show()
+
 # Stop the Spark session
 spark.stop()
