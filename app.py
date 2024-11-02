@@ -43,5 +43,10 @@ sales_df.select("date").show(5)
 total_sales = sales_df.agg(sum("amount").alias("total_sales")).collect()[0]["total_sales"]
 print(f"\nTask 6: Total Sales Amount for the entire period: {total_sales}")
 
+# Task 7: Calculate total sales by category
+sales_by_category = sales_df.groupBy("category").agg(sum("amount").alias("total_sales"))
+print("\nTask 7: Total Sales by Category:")
+sales_by_category.show()
+
 # Stop the Spark session
 spark.stop()
