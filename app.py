@@ -23,5 +23,10 @@ filtered_sales_df = sales_df.filter(col("amount") > 100)
 print("\nTask 3: Transactions with amount > 100:")
 filtered_sales_df.show()
 
+# Task 4: Replace null values in 'amount' with 0 and 'category' with 'Unknown'
+sales_df = sales_df.fillna({"amount": 0, "category": "Unknown"})
+print("\nTask 4: Data after replacing null values:")
+sales_df.show()
+
 # Stop the Spark session
 spark.stop()
