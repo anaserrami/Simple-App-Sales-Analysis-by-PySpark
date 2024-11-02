@@ -39,5 +39,9 @@ sales_df = sales_df.withColumn("date", col("date").cast(DateType()))
 print("\nTask 5: Data after date conversion:")
 sales_df.select("date").show(5)
 
+# Task 6: Calculate total sales for the entire period
+total_sales = sales_df.agg(sum("amount").alias("total_sales")).collect()[0]["total_sales"]
+print(f"\nTask 6: Total Sales Amount for the entire period: {total_sales}")
+
 # Stop the Spark session
 spark.stop()
