@@ -1,6 +1,7 @@
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import col, sum, month, max, row_number
 from pyspark.sql.types import DoubleType, StringType, DateType
+from pyspark.sql.window import Window
 
 # Start a Spark session
 spark = SparkSession.builder.appName("SalesAnalysis").getOrCreate()
@@ -62,6 +63,16 @@ top_products = sales_df.groupBy("product_id") \
                        .limit(5)
 print("\nTask 9: Top 5 Best-Selling Products by Total Sales Amount:")
 top_products.show()
+
+# Task 10: For each category, find the most sold product by amount
+window_spec = Window.partitionBy("category").orderBy(col("total_sales").desc())
+top_product_per_category = sales_df.groupBy("category", "product_id") \
+                                   .agg(sum("amount").alias("total_sales")) \
+                                   .withColumn("rank", row_number().over(window_spec)) \
+                                   .filter(col("rank") == 1) \
+                                   .drop("rank")
+print("\nTask 10: Top Product by Sales in Each Category:")
+top_product_per_category.show()
 
 # Stop the Spark session
 spark.stop()
